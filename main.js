@@ -10,7 +10,7 @@ const glob = require('glob')
 const {app, BrowserWindow} = require('electron')
 
 const debug = /--debug/.test(process.argv[2])
-let isDevelopment = true
+let isDevelopment = false
 
 if(isDevelopment){
   require('electron-reload')(__dirname,{
