@@ -192,7 +192,11 @@ function patientInit(institutionId){
         },{
           key: 'action',
           //remind: 'the action',
+<<<<<<< HEAD
           width: '60px',
+=======
+          //width: '450px',
+>>>>>>> 2d050d8d1ec22f224a73413c70832bd0e492f376
           text: '操作',
           template: function(action, rowObject){
             var actionButton = document.createElement('div');
@@ -201,6 +205,10 @@ function patientInit(institutionId){
             actionButton.addEventListener('click', function (e) {
               if(rowObject.backupTimeStamp==undefined||rowObject.backupTimeStamp==null){
                 ipcRenderer.send('open-error-dialog')
+<<<<<<< HEAD
+=======
+              //console.log(e)
+>>>>>>> 2d050d8d1ec22f224a73413c70832bd0e492f376
               }else{
                 ipcRenderer.send('delete-warning-dialog',rowObject)
               }
