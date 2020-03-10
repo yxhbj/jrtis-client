@@ -6,6 +6,7 @@ This application was develped base on the Electron Demo API, so there are many c
 To run this client application, it need install nodejs at first, and then download this client files to a folder. Open cmd and get to the folder path which contains this client files. Run the commands below to install and run this client:
 
 npm install
+
 npm start
 
 Enjoy it!
