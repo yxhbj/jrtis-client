@@ -29,7 +29,7 @@ function initialize () {
   const gotTheLock = requestSingleInstanceLock()
   if (!gotTheLock) return app.quit()
 
-  function createWindow () {
+  function createWindow (uri) {
     const windowOptions = {
       width: 1080,
       minWidth: 680,
@@ -44,7 +44,7 @@ function initialize () {
     }
     Menu.setApplicationMenu(null)
     mainWindow = new BrowserWindow(windowOptions)
-    mainWindow.loadURL(path.join('file://', __dirname, '/index.html'))
+    mainWindow.loadURL('https://'+uri)
 
     // Launch fullscreen with DevTools open, usage: npm run debug
     if (debug) {
