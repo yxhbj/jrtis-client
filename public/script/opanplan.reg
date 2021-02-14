@@ -1,0 +1,17 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\openplan]
+@="openplan Protocol"
+"URL Protocol"=""
+
+[HKEY_CLASSES_ROOT\openplan\DefaultIcon]
+@="C:\\rtms\\scripts\\openplan.bat"
+
+[HKEY_CLASSES_ROOT\openplan\shell]
+@=""
+
+[HKEY_CLASSES_ROOT\openplan\shell\open]
+@=""
+
+[HKEY_CLASSES_ROOT\openplan\shell\open\command]
+@="\"C:\\rtms\\scripts\\openplan.bat\" "

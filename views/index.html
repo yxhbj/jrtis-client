@@ -1,0 +1,609 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="img/favicon.ico" type="images/ico"/>
+
+  <link rel="stylesheet" type="text/css" href="css/variables.css" />
+  <link rel="stylesheet" href="css/nativize.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/about.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/status.css">
+  <link rel="stylesheet" href="css/section.css">
+  <link rel="stylesheet" href="css/data.css">
+  <link rel="stylesheet" href="css/github.css">
+  <link rel="stylesheet" href="css/backup-data.css">
+  <link rel="stylesheet" href="css/settings.css">
+  <link rel="stylesheet" href="css/gmo.css">
+  <link rel="stylesheet" href="css/gm.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/topbar.css">
+
+  <script type="text/javascript" src="js/gm.js"></script>
+  <script type="text/javascript" src="js/js.cookie.js"></script>
+  <script type="text/javascript">
+    const uri = window.location.href;
+    var loginStatus = checkLoginStatus();
+    var userInfo={},userName;
+    if(!checkLoginStatus()) {
+      Cookies.remove('activeSectionButtonId');
+      location.href=uri+"signin"
+    }else{
+      userInfo=JSON.parse(Cookies.get('userInfo'));
+      userName=userInfo.userName;
+      // console.log(userInfo,Cookies.get('rtpmsToken'))
+    }
+    function cleanText(e){
+      this.text='';
+    }
+    function checkLoginStatus(){
+      return Cookies.get('rtpmsToken');
+    }
+  </script>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="logo">
+      <h1 class="logo-title"><strong>放疗信息管理系统</strong></h1>
+      <h5 >(Pinnacle版)</h5>
+      <!--img class="logo-icon" src="assets/img/LogoIconOrange.png"/-->
+    </div>
+    <div class="top-right">
+      <div class="section-head">
+        <header id="institution-data-header" class="section-header">
+          <div class="section-wrapper">
+            <h1>
+              <svg class="section-icon"><use xlink:href="img/icons.svg#icon-menu"></use></svg>          
+              治疗计划数据
+            </h1>
+          </div>
+        </header>
+        <header id="backup-data-header" class="section-header">
+          <div class="section-wrapper">
+            <h1>
+              <svg class="section-icon"><use xlink:href="img/icons.svg#icon-windows"></use></svg>
+              备份数据分析及计划
+            </h1>
+          </div>
+        </header>
+        <header id="system-settings-header" class="section-header">
+          <div class="section-wrapper">
+            <h1>
+              <svg class="section-icon"><use xlink:href="img/icons.svg#icon-system"></use></svg>
+              系统参数
+            </h1>
+          </div>
+        </header>
+        <header id="system-logs-header" class="section-header">
+          <div class="section-wrapper">
+            <h1>
+              <svg class="section-icon"><use xlink:href="img/icons.svg#icon-system"></use></svg>
+              系统以及操作日志
+            </h1>
+          </div>
+        </header>
+      </div>
+      <div class="welcome">
+        <div class="user-info">
+          <label style="text-align: right;">登录用户：</label>
+          <div id="user-info"></div>
+        </div>
+        <input class="logout" type="button" value="注销">
+      </div>
+    </div>
+  </nav>
+
+  <div class="navmain">
+  <nav class="nav js-nav">
+    <header class="nav-header">
+    </header>
+    <div class="nav-item u-category-menu">
+      <h5 class="nav-category">
+        <svg class="nav-icon"><use xlink:href="/img/icons.svg#icon-menu"></use></svg>
+        治疗计划
+      </h5>
+      <button type="button" id="button-institution-data" data-section="institution-data" class="nav-button"><em>数据库</em></button>
+    </div>
+
+    <div class="nav-item u-category-windows">
+      <h5 class="nav-category">
+        <svg class="nav-icon"><use xlink:href="/img/icons.svg#icon-windows"></use></svg>
+        智能备份
+      </h5>
+      <button type="button" id="button-backup-data" data-section="backup-data" class="nav-button">备份<em>列表</em></button>
+    </div>
+
+    <div class="nav-item u-category-system">
+      <h5 class="nav-category">
+        <svg class="nav-icon"><use xlink:href="/img/icons.svg#icon-system"></use></svg>
+        系统
+      </h5>
+      <button type="button" id="button-system-settings" data-section="system-settings" class="nav-button admin">系统<em>设置</em></button>      
+      <button type="button" id="button-system-logs" data-section="system-logs" class="nav-button">系统<em>日志</em></button>
+    </div>
+
+    <footer class="nav-footer">
+      <img src="img/about.png" alt="" width="100" height="86">
+      <button type="button" id="button-about" data-modal="about" class="nav-footer-button">关于</button>
+      <a class="nav-footer-logo" href="http://www.jingfang.tech" aria-label="Homepage">
+        精放科技
+      </a>
+      <text></text>
+    </footer>
+  </nav>
+
+  <main class="content js-content">
+    
+      <section id="institution-data-section" class="section js-section u-category-menu">        
+        <div class="data">
+          <div class="data-wrapper">
+            <button id="open-file-manager-demo-toggle" class="js-container-target rtms-toggle-button">病人
+              <div class="data-meta u-avoid-clicks">
+                <span class="data-patients-usage"></span>
+              </div>
+            </button>
+            <div class="data-box">
+              <div class="data-controls">
+              </div>
+              <div class="search-area">
+                <div class="sa-ele">
+                  <label class="se-title">搜索:</label>
+                  <input class="se-con" name="search-Field"/>
+                </div>
+              </div>
+              <table id = "patient-data-table"></table>
+            </div>
+          </div>
+        </div>
+    
+        <div class="data">
+          <div class="data-wrapper">
+            <button id="open-plan-image-toggle" class="rtms-toggle-button">治疗计划和图像
+             </button>
+            <div class="data-box">
+              <div class="data-controls">
+              </div>
+              <table id = "plan-data-table"></table>
+              <br>
+              <table id = "planimage-data-table"></table>
+            </div>
+          </div>
+        </div>
+    
+        <div class="data">
+          <div class="data-wrapper">
+            <button id="open-available-image-toggle" class="js-container-target rtms-toggle-button">可导入图像
+              <div class="data-meta u-avoid-clicks">新图像 <span class="data-wrapper-divider">|</span> 自动勾画</div>
+            </button>
+            <div class="data-box">
+              <div class="data-controls">
+              </div>
+              <table id = "image-data-table"></table>
+            </div>
+          </div>
+        </div>
+    
+        <script  type="text/javascript" src="js/prosdb/institution-data.js"></script>
+    
+      </section>
+      
+      <section id="backup-data-section" class="section js-section u-category-windows">
+        <div class="data">
+          <div class="data-wrapper">
+            <button id="history-data-analyse-toggle" class="js-container-target rtms-toggle-button">已备份数据
+              <div class="data-meta u-avoid-clicks">备份数:
+                <span class="data-meta-backup-number"></span>
+                <span class="data-meta-divider">|</span>总容量:
+                <span class="data-meta-backup-size"></span>gb
+              </div>
+            </button>
+            <div class="data-box">
+              <div class="data-controls">
+              </div>
+              <h4 style="margin: 10px">备份详情</h4>
+              <div class="search-area">
+                <div class="sa-ele">
+                  <label class="se-title">搜索:</label>
+                  <input class="se-con" name="search-Backup"/>
+                </div>
+                <div class="sa-ele">
+                  <label class="se-title" style="visibility: hidden;">还原选中的数据到:</label>
+                  <input class="se-con" id="institution-restore" list="institutions" type="text" style="visibility: hidden;">
+                  <input class="data-button" name="search-restore" type="button" value="还原选中的数据"/>
+                </div>
+              </div>
+              <table id = "backup-data-table"></table>
+              <div id="pageBar">
+              </div>
+            </div>
+          </div>
+          <div class="data-wrapper">
+            <button id="history-data-analyse-toggle" class="js-container-target rtms-toggle-button">备份队列
+              <div class="data-meta u-avoid-clicks">待备份数:
+                <span class="data-meta-pending-number"></span>
+                <span class="data-meta-divider">|</span>所需容量:
+                <span class="data-meta-pending-size"></span>gb
+              </div>
+            </button>
+            <div class="data-box">
+              <div class="data-controls">
+              </div>
+              <h4 style="margin: 10px">备份队列</h4>
+              <table id = "backup-pending-table"></table>              
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="js/backup/backup-data.js"></script>
+      </section>
+      
+      <section id="system-settings-section" class="section js-section u-category-system admin">
+    
+        <div class="data">
+          <div class="data-wrapper">
+            <button id="system-setings-toggle" class="js-container-target rtms-toggle-button">设置数据库和备份的参数
+              <div class="data-meta u-avoid-clicks">支持: 数据库 <span class="data-meta-divider">|</span> 程序: 主线</div>
+            </button>
+            <div class="data-box">
+              <div class="data-controls" style="display:flex;margin-bottom: 10px">
+                <button class="data-button" id="process-save-settings">保存参数</button>
+                <button class="data-button" id="process-init-backuplist">数据同步</button>
+              </div>
+              <h4 style="margin: 10px">机构参数</h4>
+              <form id="institution-settings-form" style="width: 100%;">
+                <div style="display: flex;width: 100%;border: 1px solid #ccc;">
+                  <div style="width: 45%;">
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">默认机构</label>
+                      <input class="institution-form-input" list="institutions" type="text" name="defaultInstitution">
+                      <datalist id="institutions"></datalist>
+                    </div>
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">备份机构ID列表</label>
+                      <input class="institution-form-input bi" id="institution-form-input" type="text" name="backupInstitutions" autocomplete="off" placeholder="请选择需要备份的机构" />
+                    </div>
+                    <div id="search_select" style="position: absolute;z-index: 999;left: 22%;border: 1px solid #799bd2;background-color: #f0f0f0;padding: 2px;border-radius: 4px;">
+                      <ul id="select_ul" class="select-ul">
+                      </ul>
+                    </div>
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">自动导入新图像</label>
+                      <input id="autoImportNewImage" type="checkbox">
+                      <input class="institution-form-input" type="hidden" name="autoImportNewImage">
+                    </div>
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">自动导入图像时始终创建新病人</label>                      
+                      <input id="alwaysCreateNewPatient" type="checkbox">
+                      <input class="institution-form-input" type="hidden" name="alwaysCreateNewPatient">
+                    </div>
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">图像导入后自动删除</label>                      
+                      <input id="deleteImportedImageset" type="checkbox">
+                      <input class="institution-form-input" type="hidden" name="deleteImportedImageset">
+                    </div>
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">图像导入后自动勾画轮廓</label>                      
+                      <input id="autoSegmentation" type="checkbox">
+                      <input class="institution-form-input" type="hidden" name="autoSegmentation">
+                    </div>
+                  </div>
+                  <div style="width: 6%;"> 
+                  </div>
+                  <div style="width: 45%;display:none;">
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">机构数据库</label>
+                      <input class="institution-form-input" type="text" name="institutionFileName">
+                    </div>
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">病人数据库</label>
+                      <input class="institution-form-input" type="text" name="patientFileName">
+                    </div>
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">治疗计划数据库</label>
+                      <input class="institution-form-input" type="text" name="planFileName">
+                    </div>
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">可导入图像数据库</label>
+                      <input class="institution-form-input" type="text" name="imageFileName">
+                    </div>
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">已备份数据库</label>
+                      <input class="institution-form-input" type="text" name="backupedFileName">
+                    </div>
+                    <div class="form-group">
+                      <label class="institution-form-lable" for="nation">待备份数据库</label>
+                      <input class="institution-form-input" type="text" name="backupPendingFileName">
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <h4 style="margin: 10px">数据库参数</h4>
+              <form id="database-settings-form" style="width: 100%;">
+                <div style="display: flex;width: 100%;border: 1px solid #ccc;">
+                  <div style="width: 45%;">
+                    <div class="form-group">
+                      <label class="database-form-lable" for="jobNumber">数据库服务器</label>
+                      <input class="database-form-input" type="text" name="host">
+                    </div>
+                    <div style="display: none;">
+                      <div class="form-group">
+                        <label class="database-form-lable" for="nation">数据库名称</label>
+                        <input class="database-form-input" type="text" name="database">
+                      </div>
+                      <div class="form-group">
+                        <label class="database-form-lable" for="gender">用户名</label>
+                        <input class="database-form-input" type="text" name="user">
+                      </div>
+                      <div class="form-group">
+                        <label class="database-form-lable" for="gender">密码</label>
+                        <input class="database-form-input" type="password" name="password">
+                      </div>
+                    </div>
+                  </div>
+                  <div style="width: 6%;"> 
+                  </div>
+                  <div style="width: 45%;display:none;">
+                    <div class="form-group">
+                      <label class="database-form-lable" for="nation">数据库端口号</label>
+                      <input class="database-form-input" type="text" name="port">
+                    </div>
+                    <div class="form-group">
+                      <label class="database-form-lable" for="maxConnNumber">连接池最大连接数</label>
+                      <div style="display: flex;">
+                        <input style="width: 90%;margin-right: 10%;" class="database-form-input" min="10" max="100" step="10" type="range"  name="max">
+                        <span id="showCn">0</span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="database-form-lable" for="gender">连接最大空闲时间(毫秒)</label>
+                      <input  class="database-form-input" type="text" name="idleTimeoutMillis">
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <h4 style="margin: 10px">备份参数</h4>
+              <form id="backup-settings-form" style="width: 100%;">
+                <div style="display: flex;width: 100%;border: 1px solid #ccc;">
+                  <div style="width: 45%;">
+                    <div class="form-group">
+                      <label class="backup-form-lable" for="name">开始备份时间</label>
+                      <input class="backup-form-input" type="time" name="startTime">
+                    </div>
+                    <div class="form-group">
+                      <label class="backup-form-lable" for="gender">只备份具有锁定计划的病人？</label>
+                      <input type="checkbox" id="backupLockedOnly">
+                      <input class="backup-form-input" type="hidden" name="backupLockedOnly">
+                    </div>
+                    <div class="form-group">
+                      <label class="backup-form-lable" for="gender">备份最后修改日期距今天数</label>
+                      <div style="display: flex;">
+                        <input style="width: 90%;margin-right: 10%;" class="backup-form-input" min="0" max="365" step="1" type="range"  name="backupDaysBefore">
+                        <span id="showDB">0</span><span >天</span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="backup-form-lable" for="gender">根据CT图像确定备份日期？</label>
+                      <input type="checkbox" id="backupAccordingImageDate">
+                      <input class="backup-form-input" type="hidden" name="backupAccordingImageDate">
+                    </div>
+                    <div class="form-group">
+                      <label class="backup-form-lable" for="gender">还原时保持原病人姓名？</label>
+                      <input type="checkbox" id="restoreKeepLastName">
+                      <input class="backup-form-input" type="hidden" name="restoreKeepLastName">
+                    </div>
+                  </div>
+                  <div style="width: 6%;"> 
+                  </div>
+                  <div style="width: 45%;">
+                    <div class="form-group">
+                      <label class="backup-form-lable" for="jobNumber">每天备份病人数量</label>
+                      <div style="display: flex;">
+                        <input style="width: 90%;margin-right: 10%;" class="backup-form-input" min="1" max="100" step="1" type="range"  name="backupNumberPerDay">
+                        <span id="showBN">0</span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="backup-form-lable" for="gender">备份完成后自动删除病人？</label>
+                      <input type="checkbox" id="deleteAfterBackup">
+                      <input class="backup-form-input" type="hidden" name="deleteAfterBackup">
+                    </div>
+                    <div id="keepDays">
+                      <div class="form-group">
+                        <label class="backup-form-lable" for="name">自动删除前保留时间</label>
+                        <div style="display: flex;">
+                          <input style="width: 90%;margin-right: 10%" class="backup-form-input" min="0" max="365" type="range"  name="keepDaysBeforeDelete">
+                          <span id="showKeepDays">0</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="autoDeleteRestorePatientForm">
+                      <div class="form-group">
+                        <label class="backup-form-lable" for="name">自动维护可用存储区比例？</label>
+                        <input id="autoDeleteRestorePatient" type="checkbox">
+                        <input class="backup-form-input" type="hidden" name="autoDeleteRestorePatient">
+                      </div>
+                      <div id="spaceLimit">
+                        <div class="form-group">
+                          <label class="backup-form-lable" for="name">最大允许存储空间百分比</label>
+                          <div style="display: flex;">
+                            <input style="width: 90%;margin-right: 10%" class="backup-form-input" min="0" max="100" type="range"  name="capacityUpperLimit">
+                            <span id="showCapacity">0</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="data-wrapper">
+            <button id="server-config-toggle" class="js-container-target rtms-toggle-button">服务器及用户设置
+              <div class="data-meta u-avoid-clicks">服务器: 管理 <span class="data-meta-divider">|</span> 用户: 管理 </div>
+            </button>
+            <div class="data-box">
+              <h4 style="margin: 10px">服务器</h4>
+              <table id = "system-server-table"></table>
+              <div id="system-servers"></div>
+              <h4 style="margin: 10px">用户</h4>
+              <table id = "system-user-table"></table>
+              <div id="system-users"></div>
+            </div>
+          </div>
+        </div>
+    
+        <script type="text/javascript" src="js/system/renderTable.js"></script>
+        <script type="text/javascript" src="js/system/editTable.js"></script>
+        <script type="text/javascript" src="js/system/settings.js"></script>
+        <script type="text/javascript" src="js/system/server.js"></script>
+        <script type="text/javascript" src="js/system/user.js"></script>
+        <script type="text/javascript" src="js/system/sysInfo.js"></script>
+    
+      </section>
+
+      <section id="system-logs-section" class="section js-section u-category-system">
+    
+        <div class="data">
+          <div class="data-wrapper">
+            <button id="system-logs-demo-toggle" class="js-container-target rtms-toggle-button">服务器故障记录
+              <div class="data-meta u-avoid-clicks">支持: Solaris <span class="data-meta-divider">|</span> 程序: 主线</div>
+            </button>
+            <div class="data-box">
+              <h4 style="margin: 10px">系统日志</h4>
+              <div class="form-group">
+                <div class="sa-ele">
+                  <label class="se-title">主机日志:</label>
+                  <select class="se-con" name="selectServer">
+                    <option value="-1">请选择主机</option>
+                  </select>
+                </div>
+              </div>
+              <div id="wrapper">
+                <div id="control-area"></div>
+                <p id="text_area" style="background-color:white;border: 1px solid #ccc;height:100%;width:100%;">
+                  <textarea></textarea>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="data">
+          <div class="data-wrapper">
+            <button id="app-operate-record-demo-toggle" class="js-container-target rtms-toggle-button">应用操作记录
+              <div class="data-meta u-avoid-clicks">敏感操作 <span class="data-meta-divider">|</span> 分类日志</div>
+            </button>
+            <div class="data-box">
+              <div class="form-group">
+                <div class="sa-ele">
+                  <label class="se-title">应用服务器:</label>
+                  <select class="se-con" name="selectLogServer">
+                    <option value="-1">请选择服务器</option>
+                  </select>
+                </div>
+                <div class="sa-ele">
+                  <label class="se-title">用户:</label>
+                  <select class="se-con" name="selectLogUser">
+                    <option value="-1">请选择用户</option>
+                  </select>
+                </div>
+                <div class="sa-ele">
+                  <label class="se-title">搜索:</label>
+                  <input class="se-con" type="text" name="search-log">
+                </div>
+              </div>
+              <div id="wrapper">
+                <div id="control-area"></div>
+                <p id="app_log" style="background-color:white;border: 1px solid #ccc;height:100%;width:100%;">
+                  <textarea></textarea>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="data">
+          <div class="data-wrapper">
+            <button id="app-operate-record-demo-toggle" class="js-container-target rtms-toggle-button">病人删除记录
+              <div class="data-meta u-avoid-clicks">敏感操作 <span class="data-meta-divider">|</span> 删除日志</div>
+            </button>
+            <div class="data-box">
+              <div class="form-group">
+                <div class="sa-ele">
+                  <label class="se-title">搜索:</label>
+                  <input class="se-con" type="text" name="search-del">
+                </div>
+              </div>
+              <div id="wrapper">
+                <div id="control-area"></div>
+                <p id="del_log" style="background-color:white;border: 1px solid #ccc;height:100%;width:100%;">
+                  <textarea></textarea>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </section>
+    
+  </main>
+</div>
+
+  <div id="about-modal" class="about modal">
+    <div class="about-wrapper">
+      <header class="about-header">  
+        <div class="product-name">
+          <p id="product-name">放疗信息管理系统</p>
+          版本：<label id="product-version">0.1.0</label>
+        </div>
+      </header>
+      <main class="about-sections">
+        <section class="about-section about-code">
+          <h2>欢迎使用</h2>
+            <p><a href="http://www.jingfang.tech">精放科技<span class="u-visible-to-screen-reader">(opens in new window)</span></a>竭诚为你提供专业的肿瘤放射治疗技术服务！</p>
+        </section>
+        <footer class="about-section footer">
+          <div class="rainbow-button-wrapper">
+            <button id="get-started" class="about-button modal-hide">返回</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+    
+  <!--div id="login-modal" class="login modal">
+    <div class="login-wrapper">
+      <header class="login-header">  
+        <div class="product-name">
+          <p id="product-name"></p>
+          版本：<label id="product-version"></label>
+        </div>
+      </header>
+      <main class="login-sections">
+        <section class="login-section login-code">
+          <h2>欢迎使用</h2>
+            <p><a href="http://www.jingfang.tech">精放科技<span class="u-visible-to-screen-reader">(opens in new window)</span></a>竭诚为你提供专业的肿瘤放射治疗技术服务！</p>
+        </section>
+        <footer class="login-section footer">
+          <div class="message" id="message"></div>
+          <div class="box">
+            <div class="info">
+              <input class="u" id="user" onfocus="cleanText()" placeholder="请输入用户名"/>
+            </div>
+            <div style="margin-bottom: 10px;">
+              <input class="p" id="password" onfocus="cleanText()" type="password" placeholder="请输入密码"/>
+            </div>
+            <div class="rainbow-button-wrapper">
+              <button id="get-login" class="login-button modal-login">登录</button>
+            </div>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div-->
+
+  <script src="js/nav.js"></script>
+  <script src="js/func-btns.js"></script>
+  
+</body>
+</html>

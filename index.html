@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+      .sa-ele{
+          position: absolute;
+          top:45%;
+          left: 45%;
+      }
+  </style>
+</head>
+<body>
+    <div class="sa-ele">
+        <label class="se-title">连接到:</label>
+        <input class="se-con" id="uri-input"/>
+      </div>
+  <script>
+    const {ipcRenderer} = require('electron')
+
+    const uriInput = document.getElementById('uri-input')
+    
+    uriInput.addEventListener('change', () => {
+      ipcRenderer.send('uri', uriInput.value)
+    })
+  </script>
+</body>
+</html>

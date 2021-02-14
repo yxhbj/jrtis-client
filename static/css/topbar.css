@@ -1,0 +1,48 @@
+.topbar{
+    width: 100%;
+    display: flex;
+    justify-content:space-between;
+    border-top: 1px solid var(--color-border);
+}
+.logo{
+    background-color: rgb(250, 249, 249);
+    width: 160px;
+    border-right: 1px solid var(--color-border);
+    padding: 12px;
+    text-align: center;
+    margin-bottom: 0px;
+}
+.logo-title {
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: larger;
+  line-height: 1;
+}
+.top-right{
+    flex:1;
+    display:flex;
+    justify-content:space-between;
+    margin: 0px 20px 0px 20px;
+    border-bottom:1px solid var(--color-border);
+}
+.section-head{
+    width:85%;
+}
+.welcome{
+    display: flex;
+    justify-content:space-between;
+    width: 200px;
+    text-align: center;
+}
+.user-info{
+    display: flex;
+    width: 90%;
+    margin: 20px 0px 20px 0px;
+}
+.logout{
+    width: 30%;
+    border:0px solid var(--color-border);
+    background-color:white;
+    cursor: pointer;
+    margin: 20px;
+}

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="放疗信息管理系统">
+    <meta name="author" content="yang xiaohui">
+    <meta name="generator" content="Hugo 0.80.0">
+    <title>放疗信息管理系统</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/sign-in/">
+
+    <script type="text/javascript" src="js/js.cookie.js"></script>
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="css/signin.css" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    
+    <form class="form-signin" name="form-signin">
+      <img src="img/about.png" alt="" width="165" height="144">
+      <p>放疗信息管理系统</p>
+      <h1 style="visibility: hidden" class="h3 mb-3 font-weight-normal">请登录</h1>
+      <label for="inputName" class="sr-only">用户名/邮箱地址</label>
+      <input type="userName" name="loginName" id="inputName" class="form-control" placeholder="用户名/邮箱地址" required autofocus>
+      <label for="inputPassword" class="sr-only">密码</label>
+      <input type="password" name="password" id="inputPassword" class="form-control" placeholder="密码" required>
+      <div class="checkbox mb-3">
+        <label style="visibility: hidden">
+          <input type="checkbox" value="remember-me"> 记住我
+        </label>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" id="signin">登录</button>
+      <p class="mt-5 mb-3 text-muted">精放科技&copy; 2017-2021</p>
+    </form>
+
+
+    <script>
+      var of=document.querySelector(".form-signin");
+      of.onsubmit = function () {
+        signin();
+        return false;
+      }
+
+      function signin(){
+        var form=document.querySelector(".form-signin");
+        var user=document.getElementById('inputName'),
+            password=document.getElementById('inputPassword'),
+            userData={
+              loginName:user.value,
+              password:password.value
+            };
+        var loginStatus = false;
+        var userInfo={},userName;
+        postData("authenticate","json",userData).then(res=>{
+          if(res.success){            
+            Cookies.set('rtpmsToken',res.token);
+            Cookies.set('userInfo',res.userInfo);
+            location.href="https://www.irt.net.cn:8088/";
+          }else{
+            alert(res.message)
+          }
+        })
+      }
+
+      function postData(route,type,data,func){
+        var typeList={
+          "json":"application/json; charset=UTF-8",
+          "form":"multipart/form-data"
+        }
+        const xhr = new XMLHttpRequest();
+        return new Promise((resolve,reject)=>{
+          xhr.open("POST", "https://www.irt.net.cn:8088/"+route);
+          xhr.setRequestHeader("Content-Type",typeList[type]);
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState !== 4) {
+              return;
+            }
+            if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
+              var resData=JSON.parse(xhr.response)
+              if(typeof func == "function") func(resData)
+              resolve(resData)
+            }else {
+              reject(xhr);
+            }
+          }
+          if(type=="json"){
+            xhr.send(JSON.stringify(data))
+          }else if(type=="form"){
+            let formData = "";
+            for (let key in data) {
+              if (formData !== "") {
+                formData += "&";
+              }
+              formData += key + "=" + data[key];
+            }
+            xhr.send(formData);
+          }
+        })
+      }
+    </script>    
+  </body>
+</html>
