@@ -78,11 +78,15 @@
   outline: none;
 }
 
-.nav-button.admin {
+.nav-button.admin,
+.se-title.admin,
+.se-con.admin{
   display: none;
 }
 
-.nav-button.admin.is-shown {
+.nav-button.admin.is-shown,
+.se-title.admin.is-shown,
+.se-con.admin.is-shown {
   display: block;
 }
 

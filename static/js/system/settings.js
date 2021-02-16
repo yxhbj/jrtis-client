@@ -4,7 +4,7 @@ var instElements = document.querySelectorAll(".institution-form-input");
 var dbElements = document.querySelectorAll(".database-form-input");
 var bkpElements = document.querySelectorAll(".backup-form-input");
 
-postData("settings",'json',{},loadSettingData)
+postData("settings",'json',{}).then(data=>loadSettingData(data)).catch(e=>console.log(e));
 
 // if ("confirm(数据同步操作将删除现有的全部数据和重置所有的设置，确定进行?")) {
 //   postData("initialization",'json');

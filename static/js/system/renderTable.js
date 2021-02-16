@@ -1,5 +1,5 @@
 const sampleUser = [{
-        id: 1,
+        id: 0,
         username: "",
         gender: "other",
         cellPhone: "",
@@ -10,7 +10,7 @@ const sampleUser = [{
         siteCode:"0"
     }];
 const sampleServer = [{
-        id: 1,
+        id: 0,
         host: "dell",
         ip: "114.112.84.158",
         backupDirectory: "/autoDataSets/NFSarchive/",
@@ -56,7 +56,7 @@ function loadData(tableEle,dataType,data){
 function addAction(tableEle,tr,dataType){
     td = tr.insertCell(tr.cells.length);
     var addImg = document.createElement("img");
-    addImg.src="img/plus.png";
+    addImg.src="../static/img/plus.png";
     td.appendChild(addImg)
     addImg.width="16";
     addImg.style.margin="4px";
@@ -67,7 +67,7 @@ function addAction(tableEle,tr,dataType){
       addAction(tableEle,newRow,dataType)
     })
     var delImg = document.createElement("img");
-    delImg.src="img/minus.png";
+    delImg.src="../static/img/minus.png";
     td.appendChild(delImg)
     delImg.width="16";
     delImg.style.margin="4px";
@@ -75,7 +75,7 @@ function addAction(tableEle,tr,dataType){
       tableEle.deleteRow(e.target.parentNode.parentNode.rowIndex)
     })
     var saveImg = document.createElement("img");
-    saveImg.src="img/save.png";
+    saveImg.src="../static/img/save.png";
     td.appendChild(saveImg)
     saveImg.width="16";
     saveImg.style.margin="4px";

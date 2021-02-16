@@ -2,43 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <link rel="icon" href="img/favicon.ico" type="images/ico"/>
+  <link rel="icon" href="../static/img/favicon.ico" type="images/ico"/>
 
-  <link rel="stylesheet" type="text/css" href="css/variables.css" />
-  <link rel="stylesheet" href="css/nativize.css">
-  <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/about.css">
-  <link rel="stylesheet" href="css/nav.css">
-  <link rel="stylesheet" href="css/status.css">
-  <link rel="stylesheet" href="css/section.css">
-  <link rel="stylesheet" href="css/data.css">
-  <link rel="stylesheet" href="css/github.css">
-  <link rel="stylesheet" href="css/backup-data.css">
-  <link rel="stylesheet" href="css/settings.css">
-  <link rel="stylesheet" href="css/gmo.css">
-  <link rel="stylesheet" href="css/gm.css">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/topbar.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/variables.css" />
+  <link rel="stylesheet" href="../static/css/nativize.css">
+  <link rel="stylesheet" href="../static/css/global.css">
+  <link rel="stylesheet" href="../static/css/about.css">
+  <link rel="stylesheet" href="../static/css/nav.css">
+  <link rel="stylesheet" href="../static/css/status.css">
+  <link rel="stylesheet" href="../static/css/section.css">
+  <link rel="stylesheet" href="../static/css/data.css">
+  <link rel="stylesheet" href="../static/css/github.css">
+  <link rel="stylesheet" href="../static/css/backup-data.css">
+  <link rel="stylesheet" href="../static/css/settings.css">
+  <link rel="stylesheet" href="../static/css/gmo.css">
+  <link rel="stylesheet" href="../static/css/gm.css">
+  <link rel="stylesheet" href="../static/css/base.css">
+  <link rel="stylesheet" href="../static/css/topbar.css">
 
-  <script type="text/javascript" src="js/gm.js"></script>
-  <script type="text/javascript" src="js/js.cookie.js"></script>
+  <script type="text/javascript" src="../static/js/gm.js"></script>
+  <script type="text/javascript" src="../static/js/js.cookie.js"></script>
   <script type="text/javascript">
-    const uri = window.location.href;
-    var loginStatus = checkLoginStatus();
-    var userInfo={},userName;
-    if(!checkLoginStatus()) {
-      Cookies.remove('activeSectionButtonId');
-      location.href=uri+"signin"
-    }else{
-      userInfo=JSON.parse(Cookies.get('userInfo'));
-      userName=userInfo.userName;
-      // console.log(userInfo,Cookies.get('rtpmsToken'))
+    const {ipcRenderer} = require('electron')
+    const Settings = require('electron-settings')
+    const uri = "https://www.irt.net.cn:8088/";
+
+    function checkLoginStatus(){
+      return Settings.get("login");
     }
+
+    if(!checkLoginStatus()) {
+      ipcRenderer.sendSync('logout-message','not login')
+    }
+
+    var login = JSON.parse(Settings.get("login"))
+        ,token = login.token
+        ,userInfo=login.userInfo
+        ,userName=userInfo.userName;
+
     function cleanText(e){
       this.text='';
-    }
-    function checkLoginStatus(){
-      return Cookies.get('rtpmsToken');
     }
   </script>
 </head>
@@ -54,7 +57,7 @@
         <header id="institution-data-header" class="section-header">
           <div class="section-wrapper">
             <h1>
-              <svg class="section-icon"><use xlink:href="img/icons.svg#icon-menu"></use></svg>          
+              <svg class="section-icon"><use xlink:href="../static/img/icons.svg#icon-menu"></use></svg>          
               治疗计划数据
             </h1>
           </div>
@@ -62,7 +65,7 @@
         <header id="backup-data-header" class="section-header">
           <div class="section-wrapper">
             <h1>
-              <svg class="section-icon"><use xlink:href="img/icons.svg#icon-windows"></use></svg>
+              <svg class="section-icon"><use xlink:href="../static/img/icons.svg#icon-windows"></use></svg>
               备份数据分析及计划
             </h1>
           </div>
@@ -70,7 +73,7 @@
         <header id="system-settings-header" class="section-header">
           <div class="section-wrapper">
             <h1>
-              <svg class="section-icon"><use xlink:href="img/icons.svg#icon-system"></use></svg>
+              <svg class="section-icon"><use xlink:href="../static/img/icons.svg#icon-system"></use></svg>
               系统参数
             </h1>
           </div>
@@ -78,7 +81,7 @@
         <header id="system-logs-header" class="section-header">
           <div class="section-wrapper">
             <h1>
-              <svg class="section-icon"><use xlink:href="img/icons.svg#icon-system"></use></svg>
+              <svg class="section-icon"><use xlink:href="../static/img/icons.svg#icon-system"></use></svg>
               系统以及操作日志
             </h1>
           </div>
@@ -100,7 +103,7 @@
     </header>
     <div class="nav-item u-category-menu">
       <h5 class="nav-category">
-        <svg class="nav-icon"><use xlink:href="/img/icons.svg#icon-menu"></use></svg>
+        <svg class="nav-icon"><use xlink:href="../static/img/icons.svg#icon-menu"></use></svg>
         治疗计划
       </h5>
       <button type="button" id="button-institution-data" data-section="institution-data" class="nav-button"><em>数据库</em></button>
@@ -108,7 +111,7 @@
 
     <div class="nav-item u-category-windows">
       <h5 class="nav-category">
-        <svg class="nav-icon"><use xlink:href="/img/icons.svg#icon-windows"></use></svg>
+        <svg class="nav-icon"><use xlink:href="../static/img/icons.svg#icon-windows"></use></svg>
         智能备份
       </h5>
       <button type="button" id="button-backup-data" data-section="backup-data" class="nav-button">备份<em>列表</em></button>
@@ -116,7 +119,7 @@
 
     <div class="nav-item u-category-system">
       <h5 class="nav-category">
-        <svg class="nav-icon"><use xlink:href="/img/icons.svg#icon-system"></use></svg>
+        <svg class="nav-icon"><use xlink:href="../static/img/icons.svg#icon-system"></use></svg>
         系统
       </h5>
       <button type="button" id="button-system-settings" data-section="system-settings" class="nav-button admin">系统<em>设置</em></button>      
@@ -124,7 +127,7 @@
     </div>
 
     <footer class="nav-footer">
-      <img src="img/about.png" alt="" width="100" height="86">
+      <img src="../static/img/about.png" alt="" width="100" height="86">
       <button type="button" id="button-about" data-modal="about" class="nav-footer-button">关于</button>
       <a class="nav-footer-logo" href="http://www.jingfang.tech" aria-label="Homepage">
         精放科技
@@ -184,7 +187,7 @@
           </div>
         </div>
     
-        <script  type="text/javascript" src="js/prosdb/institution-data.js"></script>
+        <script  type="text/javascript" src="../static/js/prosdb/institution-data.js"></script>
     
       </section>
       
@@ -208,8 +211,8 @@
                   <input class="se-con" name="search-Backup"/>
                 </div>
                 <div class="sa-ele">
-                  <label class="se-title" style="visibility: hidden;">还原选中的数据到:</label>
-                  <input class="se-con" id="institution-restore" list="institutions" type="text" style="visibility: hidden;">
+                  <label class="se-title admin">数据还原到:</label>
+                  <input class="se-con admin" id="institution-restore" list="institutions" type="text">
                   <input class="data-button" name="search-restore" type="button" value="还原选中的数据"/>
                 </div>
               </div>
@@ -234,10 +237,10 @@
             </div>
           </div>
         </div>
-        <script type="text/javascript" src="js/backup/backup-data.js"></script>
+        <script type="text/javascript" src="../static/js/backup/backup-data.js"></script>
       </section>
       
-      <section id="system-settings-section" class="section js-section u-category-system admin">
+      <section id="system-settings-section" class="section js-section u-category-system">
     
         <div class="data">
           <div class="data-wrapper">
@@ -452,12 +455,12 @@
           </div>
         </div>
     
-        <script type="text/javascript" src="js/system/renderTable.js"></script>
-        <script type="text/javascript" src="js/system/editTable.js"></script>
-        <script type="text/javascript" src="js/system/settings.js"></script>
-        <script type="text/javascript" src="js/system/server.js"></script>
-        <script type="text/javascript" src="js/system/user.js"></script>
-        <script type="text/javascript" src="js/system/sysInfo.js"></script>
+        <script type="text/javascript" src="../static/js/system/renderTable.js"></script>
+        <script type="text/javascript" src="../static/js/system/editTable.js"></script>
+        <script type="text/javascript" src="../static/js/system/settings.js"></script>
+        <script type="text/javascript" src="../static/js/system/server.js"></script>
+        <script type="text/javascript" src="../static/js/system/user.js"></script>
+        <script type="text/javascript" src="../static/js/system/sysInfo.js"></script>
     
       </section>
 
@@ -602,8 +605,8 @@
     </div>
   </div-->
 
-  <script src="js/nav.js"></script>
-  <script src="js/func-btns.js"></script>
+  <script src="../static/js/nav.js"></script>
+  <script src="../static/js/func-btns.js"></script>
   
 </body>
 </html>

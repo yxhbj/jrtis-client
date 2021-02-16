@@ -295,7 +295,7 @@ function restorePatient(){
           }
         })
     // console.log(restoreList)
-    postData("restorePatient","json",restoreList).then(res=>console.log("ok:",res)).catch(e=>"error:",e)
+    postData("restorePatient","json",restoreList).then(res=>console.log("ok:",res)).catch(e=>("error:"+e))
   }
 }
 

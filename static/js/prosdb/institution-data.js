@@ -13,6 +13,7 @@ function postData(route,type,data,func){
   return new Promise((resolve,reject)=>{
     xhr.open("POST", uri+"app/"+route);
     xhr.setRequestHeader("Content-Type",typeList[type]);
+    xhr.setRequestHeader('x-access-token',token)
     xhr.onreadystatechange = function() {
       if (xhr.readyState !== 4) {
         return;
@@ -37,6 +38,75 @@ function postData(route,type,data,func){
       }
       xhr.send(formData);
     }
+  })
+}
+
+const {net} = require('electron').remote;
+
+function ftechData(route,type,data){
+  const request = net.request({
+          method: 'POST',
+          protocol: 'https:',
+          hostname: 'www.irt.net.cn',
+          port: 8088,
+          path: '/app/'+route
+      })
+  return new Promise((resolve,reject)=>{
+      request.setHeader('Content-Type',type)
+      request.setHeader('x-access-token',token)
+      request.on('response', (response) => {
+          console.log(`**statusCode:${response.statusCode}`);
+          // console.log(response)
+
+          response.on("data", (chunk) => {
+              resolve(chunk.toString())
+          })
+          response.on('end', () => {
+              console.log("Data receive end.");
+          })
+      });
+
+      request.on('error',error=>reject(error))
+      request.write(type=="multipart/form-data"?data:data==undefined?"":JSON.stringify(data));
+      request.end();
+  })
+}
+
+function postDataElectron(route,type,data,func){
+  var typeList={
+    "json":"application/json; charset=UTF-8",
+    "form":"multipart/form-data"
+  }  
+  var sendData;
+  if(type=="json"){
+    var sendData=data
+  }else if(type=="form"){
+    let formData = "";
+    for (let key in data) {
+      if (formData !== "") {
+        formData += "&";
+      }
+      formData += key + "=" + data[key];
+    }
+    sendData=formData
+  }
+  // ipcRenderer.send('post-message', {route:route,type:typeList[type],data:sendData,token:token})
+
+  return new Promise((resolve,reject)=>{
+    // ipcRenderer.on('post-reply', (event, arg) => {
+    ftechData(route,typeList[type],sendData).then(data=>{
+      // console.log(typeof arg)
+      // if(arg.success){
+        var resData=type=='json'?JSON.parse(data):data
+        if(route==="servLogs") console.log("Received data:", resData,typeof resData);
+        if(typeof func == "function"){
+          func(resData)
+        }
+        resolve(resData)
+      // }else{
+      //   reject(arg.data)
+      // }
+    }).catch(e=>reject(e))
   })
 }
 
@@ -215,60 +285,6 @@ function patientInit(institutionField) {
       remind: "",
       text: "备注"
     },
-    // {
-    //   key: "action",
-    //   //remind: 'the action',
-    //   width: "60px",
-    //   text: "操作",
-      // template: function(action, rowObject) {
-      //   var actionButton = document.createElement("div");
-      //   actionButton.innerText = "删除";
-      //   actionButton.classList.add("plugin-action");
-      //   actionButton.addEventListener("click", function(e) {
-      //     if (
-      //       rowObject.backupTimeStamp == undefined ||
-      //       rowObject.backupTimeStamp == null
-      //     ) {
-      //       alert('未备份的病人数据不能删除！');
-      //     } else {
-      //       var x;
-      //       var r=confirm("此操作将立即删除病人并且不可取消，确定删除！");
-      //       if (r==true){
-      //         var patients = [];
-      //         patients.push(rowObject);
-      //         const xhr = new XMLHttpRequest();
-      //         xhr.open("POST", uri+"deletePatient");
-      //         xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-      //         xhr.onreadystatechange = function() {
-      //           console.log(xhr.status)
-      //           if (xhr.readyState !== 4) {
-      //             return;
-      //           }
-      //           if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-      //             var result=JSON.parse(xhr.response)
-      //             console.log(result)
-      //             setTimeout(()=>{
-      //                 patientTable.GM('refreshGrid');
-      //                 // // 获取弹框元素
-      //                 // var dialog = document.getElementsByTagName("dialog")[0],
-      //                 //   openDialog = document.getElementById("open_dialog"),
-      //                 //   closeDialog = document.getElementById("close_dialog");
-      //                 // //打开弹框
-      //                 // dialog.show();
-      //                 // //关闭弹框
-      //                 // setTimeout(()=>{
-      //                 //   dialog.close();
-      //                 // },3000);
-      //             }, 3000);
-      //           }
-      //         }
-      //         xhr.send(JSON.stringify(patients))
-      //       }
-      //     }
-      //   });
-      //   return actionButton;
-      // }
-    // }
   ]
   if(userInfo.role==="Administrator"){
     columnData[0].filter=filter;
@@ -473,7 +489,9 @@ function postPlan(plan){
   }
   postData("openPlan","json",plan).then(res=>{
     if(res=="ok"){
-      window.open("openplan://",'_self')
+      // window.open("openplan://",'_self')
+      const reply = ipcRenderer.sendSync('openPlan-message',plan)
+      console.log(reply)
     }else if(res=="locked"){
       alert("该患者已经被其他人打开。")
     }else{

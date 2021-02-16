@@ -8,14 +8,12 @@ document.body.addEventListener('click', (event) => {
     hideAllModals();
   // } else if (event.target.classList.contains('modal-login')) {
   //   userCheck();
-  }else if(event.target.classList.contains('logout')){    
-    Cookies.remove('userInfo');
-    Cookies.remove('rtpmsLogin');
-    Cookies.remove('rtpmsToken');
-    Cookies.remove('activeSectionButtonId');
-    // GridManager.destroy("patient-table");
-    location.reload();
-    // displayLogin();
+  }else if(event.target.classList.contains('logout')){
+    Settings.delete('login')
+    token=null
+    userInfo=null
+    user=null
+    displayLogin();
   }
 })
 
@@ -98,32 +96,26 @@ function displayAbout () {
   setProductInfo();
 }
 
-// function displayLogin () {
-//   document.querySelector('#login-modal').classList.add('is-shown')
-//   document.getElementById('message').innerHTML='';
-//   document.getElementById('user').value='';
-//   document.getElementById('password').value='';
-//   setProductInfo();
-// }
+function displayLogin () {
+  ipcRenderer.sendSync('logout-message', 'logout')
+  // location.href="./signin.html"
+}
 
 function showAdmin () {
-  document.querySelector('.admin').classList.add('is-shown')
+  document.querySelectorAll('.admin').forEach(adm=>adm.classList.add('is-shown'))
 }
 
 function hideAdmin () {
-  document.querySelector('.admin').classList.remove('is-shown')
+  document.querySelectorAll('.admin').forEach(adm=>adm.classList.remove('is-shown'))
 }
 
 function checkAdmin () {
-  if(Cookies.get('userInfo')) {
-    var userInfo=JSON.parse(Cookies.get('userInfo'))
-    if(userInfo.role==="Administrator"){
-      showAdmin()
-    }else{
-      hideAdmin()
-    }
-    return userInfo.role==="Administrator"
+  if(userInfo.role==="Administrator"){
+    showAdmin()
+  }else{
+    hideAdmin()
   }
+  return userInfo.role==="Administrator"
 }
 
 // function setUserInfo (userLogin) {
