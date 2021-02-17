@@ -487,10 +487,14 @@ function postPlan(plan){
     alert("该患者计划没有选择计划图像。")
     return;
   }
-  postData("openPlan","json",plan).then(res=>{
+  postData("openPlan","json",{'plan':plan,'user':userInfo}).then(res=>{
     if(res=="ok"){
       // window.open("openplan://",'_self')
-      const reply = ipcRenderer.sendSync('openPlan-message',plan)
+      var sendInfo = {}
+      sendInfo.server = userInfo.appServer
+      sendInfo.user = userInfo.loginName
+      sendInfo.password = userInfo.password
+      const reply = ipcRenderer.sendSync('openPlan-message',sendInfo)
       console.log(reply)
     }else if(res=="locked"){
       alert("该患者已经被其他人打开。")

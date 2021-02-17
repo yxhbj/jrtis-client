@@ -1,3 +1,5 @@
+if(require('electron-squirrel-startup')) return;
+
 // only add update server if it's not being run from cli
 if (require.main !== module) {
   require('update-electron-app')({
@@ -11,8 +13,8 @@ const settings = require('electron-settings')
 const glob = require('glob')
 // const uri='www.irt.net.cn:8088'
 
-const debug = true//--debug/.test(process.argv[2])
-let isDevelopment = true
+const debug = /--debug/.test(process.argv[2])
+let isDevelopment = false
 
 if(isDevelopment){
   require('electron-reload')(__dirname

@@ -7,3 +7,5 @@ obj
 irtms.njsproj
 irtms.njsproj.user
 *.log
+third
+build

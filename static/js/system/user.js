@@ -22,7 +22,8 @@ function userTableHead(){
     loginName: { text: "登录名", editType: "textBox" },
     password: { text: "密码", editType: "password" },
     role: { text: "职位", editType: "dropDownList" },
-    siteCode: { text: "机构", editType: "textBox" }
+    siteCode: { text: "机构", editType: "textBox" },
+    appServer: { text: "应用服务器", editType: "textBox" }
   };    
   thr = userTable.insertRow(userTable.rows.length);
   for (let j in columnData) {
