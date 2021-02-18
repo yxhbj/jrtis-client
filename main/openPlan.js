@@ -14,7 +14,7 @@ ipcMain.on('openPlan-message', (event,arg) => {
     var batCmd = `taskkill /IM jovdc.exe -f
     cd ${scriptPath}
     set PATH=.;%PATH%
-    jre6\\bin\\jovdc  -Dhide=visible -Duser=${arg.user} -Dpasswd=${arg.password}  -classpath ovdc.jar;edtftpj.jar;log4j-1.2.9.jar com.oracle.vdc.gui.OVDC ${arg.server}
+    jre6\\bin\\jovdc  -Dhide=visible -Duser=${arg.user} -Dpasswd=${arg.password}  -classpath jvdc.jar com.oracle.vdc.gui.OVDC ${arg.server}
     `
     var ws = fs.createWriteStream(batFileName, { start: 0 });
     var buffer = new Buffer.from(batCmd);
