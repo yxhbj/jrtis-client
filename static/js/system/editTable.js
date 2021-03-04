@@ -70,7 +70,6 @@ const createTextBox = function(element, value){
 		textBox.type = "text";
 		textBox.className="EditCell_TextBox";
 		textBox.style.height = element.parentNode.style.height;
-		textBox.width = element.parentNode.width;
 		
 		//设置文本框当前值
 		if(!value){

@@ -120,6 +120,7 @@ function institutionInit() {
   institutionTable.GM(
     "init",
     {
+      disableBorder:false,
       supportRemind: false,
       gridManagerName: "institution-table",
       isCombSorting: false,
@@ -292,6 +293,7 @@ function patientInit(institutionField) {
   patientTable.GM(
     "init",
     {
+      disableBorder:false,
       supportRemind: false,
       gridManagerName: "patient-table",
       isCombSorting: false,
@@ -315,7 +317,7 @@ function patientInit(institutionField) {
       columnData: columnData,
       checkedAfter: function(checkedList, isChecked, rowData) {
         // console.log(checkedList,isChecked,rowData);
-        // console.log("选择了病人" + rowData.lastname + rowData.firstname);
+        // console.log("选择了患者" + rowData.lastname + rowData.firstname);
         var _query = {
           patientid: rowData.patientid
         };
@@ -351,6 +353,7 @@ function planInit(patientid) {
   planTable.GM("init", {
     gridManagerName: "plan-table",
     height: "auto",
+    disableBorder:true,
     supportRemind: false,
     isCombSorting: false,
     supportCheckbox: false,
@@ -364,7 +367,7 @@ function planInit(patientid) {
         return `<p class = "imgDes-data ${patientid}:${row.planid}:${row.primaryctimagesetid}" style="margin:10px;"></p>`
       }
     },
-    emptyTemplate: '<div class="gm-emptyTemplate">该病人暂无计划数据</div>',
+    emptyTemplate: '<div class="gm-emptyTemplate">该患者暂无计划数据</div>',
     ajaxData: function(settings, params) {
       // 传入参数信息
       return postData("planDB","form",params,planPostProcess);
@@ -461,7 +464,8 @@ function addPlanAction(){
 
 function refreshPlanImgDes(){
   var planImageSetDes = document.querySelectorAll(".imgDes-data");
-  planImageSetDes.forEach(element => {
+  planImageSetDes.forEach( element=> {
+    element.parentNode.style.borderTop="var(--gm-border)";
     var patid=element.classList[1].split(':')[0];
     var imgid=element.classList[1].split(':')[2];
     if(imgid==-1) return;
@@ -506,6 +510,7 @@ function postPlan(plan){
 
 function planImageInit(table,query) {
   table.GM("init", {
+    disableBorder:false,
     supportRemind: false,
     gridManagerName: "planimage-table",
     isCombSorting: false,
@@ -513,7 +518,7 @@ function planImageInit(table,query) {
     supportCheckbox: false,
     supportAjaxPage: false,
     supportSorting: false,
-    emptyTemplate: '<div class="gm-emptyTemplate">该病人暂未导入图像</div>',
+    emptyTemplate: '<div class="gm-emptyTemplate">该患者暂未导入图像</div>',
     ajaxData: function(settings, params) {
       // 传入参数信息
       return postData("planimageDB","form",params);
@@ -523,7 +528,7 @@ function planImageInit(table,query) {
     columnData: [
       {
         key: "dbname",
-        text: "病人姓名"
+        text: "患者姓名"
       },
       {
         key: "mrn",
@@ -600,6 +605,7 @@ document
 function imageInit() {
   imageTable.GM("init", {
     height: "auto",
+    disableBorder:true,
     supportRemind: false,
     gridManagerName: "image-table",
     isCombSorting: false,
@@ -618,7 +624,7 @@ function imageInit() {
     columnData: [
       {
         key: "NameFromScanner",
-        text: "病人姓名"
+        text: "患者姓名"
       },
       {
         key: "MRN",

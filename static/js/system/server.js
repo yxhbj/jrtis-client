@@ -38,7 +38,10 @@ function serverTableHead() {
     thd.value = j;
     thd.align = "center";
     thr.style.backgroundColor = "lightgrey";
-    thr.style.height = "30px";
+    thr.style.height = "40px";
+    if(j=='id'){
+      thd.style.width="45px";
+    }
     if (j == "type") {
       thd.setAttribute(
         "DataItems",

@@ -13,6 +13,7 @@ var table = document.querySelector("#backup-data-table");
 table.GM("init",{
   gridManagerName: "backupData",
   height: "auto",
+  disableBorder:false,
   supportRemind: false,
   isCombSorting: false,
   supportSorting: false,
@@ -31,10 +32,10 @@ table.GM("init",{
       // console.log(row)
       var backedInfo = document.createElement("div");
       backedInfo.classList.add("backuped-data-info");
-      backedInfo.classList.add("plan-action");
+      // backedInfo.classList.add("plan-action");
       backedInfo.setAttribute("data",JSON.stringify(row));
-      backedInfo.style.cssText="margin:10px;display:flex;text-align:center;item-align:center";
-      backedInfo.innerHTML="backuped-data-info"
+      backedInfo.style.cssText="margin:10px;display:flex;text-align:center;item-align:center;";
+      backedInfo.innerHTML="数据库中无该患者的数据"
       return backedInfo
     }
   },
@@ -146,6 +147,7 @@ function addBackupAction(){
   var backupHandler=document.querySelectorAll(".backuped-data-info")
   // console.log(backupHandler)
   backupHandler.forEach(bh=>{
+    bh.parentNode.style.borderTop="var(--gm-border)";
     if(bh!=null){
       var data = JSON.parse(bh.getAttribute("data"));
       var patientid=data.patientPath.match(/\d*$/)[0];
@@ -159,7 +161,7 @@ function addBackupAction(){
                 }).then(pat=>{
                   if(pat.totals>0){
                     pat=pat.data[0]
-                    bh.innerHTML="数据库中存在这个病人，"+
+                    bh.innerHTML="数据库中存在这个患者，"+
                                   "姓名："+pat.lastname+pat.firstname+
                                   "，病历号："+pat.medicalrecordnumber+
                                   "，最后修改日期："+pat.lastmodifiedtimestamp+                                
@@ -169,7 +171,7 @@ function addBackupAction(){
                     delAction.value="从数据库中删除";
                     delAction.classList.add("plugin-action");
                     delAction.addEventListener('click', (event) => {  
-                      var r=confirm("此操作将立即删除病人并且不可取消，确定删除！");
+                      var r=confirm("此操作将立即删除患者并且不可取消，确定删除！");
                       if (r===true){
                         var patients = [];
                         pat.backupTimeStamp=data.backupTimeStamp;
@@ -199,6 +201,7 @@ function pendingPostProcess(postResponse){
 pendingTable.GM(
   "init",
   {
+    disableBorder:true,
     supportRemind: false,
     gridManagerName: "pending-table",
     isCombSorting: false,
@@ -278,9 +281,9 @@ pendingTable.GM(
   }
 );
 
-//还原已经备份的病人数据
+//还原已经备份的患者数据
 function restorePatient(){
-  var r=confirm("此操作将立即还原病人并且不可取消，确定还原吗？");
+  var r=confirm("此操作将立即还原患者并且不可取消，确定还原吗？");
   if (r==true){
     var selectedPatients=GridManager.getCheckedData("backupData")
     var selectedInstitution=userInfo.role==="Administrator"?document.getElementById('institution-restore').value:userInfo.siteCode;

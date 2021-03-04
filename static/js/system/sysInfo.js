@@ -84,7 +84,7 @@ postData("sysInfo",'json').then(sysInfo=>{
 })
 
 function setStat (sysStat) {
-    document.querySelector(".data-patients-usage").innerHTML = `病人数：${sysStat.patNumber} | 存储总容量：${sysStat.disk.total} | 已使用：${sysStat.disk.used} | 已用比例：${sysStat.disk.usage}`;
+    document.querySelector(".data-patients-usage").innerHTML = `患者数：${sysStat.patNumber} | 存储总容量：${sysStat.disk.total} | 已使用：${sysStat.disk.used} | 已用比例：${sysStat.disk.usage}`;
   }
    
 function filterAppLogs(data,server,user,search){

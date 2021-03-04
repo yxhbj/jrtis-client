@@ -33,9 +33,9 @@ function userTableHead(){
     thd.value=j;
     thd.align = "center";
     thr.style.backgroundColor = "lightgrey";
-    thr.style.height = "30px";
+    thr.style.height = "40px";
     if(j=='id'){
-      thd.style.width="30px";
+      thd.style.width="45px";
     }
     if(j=='role'){
       thd.setAttribute("DataItems","{text:'管理员',value:'Administrator'},{text:'剂量师',value:'Planner'},{text:'物理师',value:'Physicist'}")

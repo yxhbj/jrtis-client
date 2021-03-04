@@ -32,7 +32,7 @@
 
 .section-wrapper {
   position: relative;
-  max-width: 96%;
+  max-width: 100%;
   margin: 0 auto;
   padding: 1rem 0.5rem 1rem 0.5rem;
   border-bottom: 0px solid var(--color-border);

@@ -17,7 +17,7 @@
 html {
   height: 100%;
   font-family: 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.5;
   overflow: hidden; /* Prevents rubber-band scrolling of the whole "page" */
   color: var(--color);
@@ -62,17 +62,32 @@ h3 {
 table {
   width: 100%;
   border-spacing: 0;
-  border: 1px solid hsla(0,0%,0%,.08);
-  border-width: 0 1px 1px 0;
+  border: 0px solid hsla(0,0%,0%,.08);
+  border-width: 0px 0px 0px 0px;
 }
+table tr:first-child th:first-child {
+  border-top-left-radius: 0px;
+}
+  
+table tr:first-child th:last-child {
+  border-top-right-radius: 0px;
+}
+table tr:last-child td:first-child {
+  border-bottom-left-radius: 6px;
+}
+
+table tr:last-child td:last-child {
+  border-bottom-right-radius: 6px;
+}
+
 th {
   background-color: hsla(0,0%,50%,.06);
 }
 th,
 td {
   text-align: center;
-  border: 1px solid hsla(0,0%,0%,.08);
-  border-width: 1px 0 0 1px;
+  border: 0px solid hsla(0,0%,0%,.08);
+  border-width: 0px 0 0 0px;
 }
 
 svg {
@@ -104,11 +119,11 @@ pre, kbd {
 pre code {
   white-space: pre;
 }
-
+/* 
 pre > .hljs {
   color: var(--color-subtle);
   background-color: white;
-}
+} */
 
 kbd {
   padding: 0.5em;
@@ -152,7 +167,6 @@ kbd {
   opacity: 1;
 }
 
-
 /* Hacks ---------------------------- */
 
 /* Fixes horizontal scrolling in code blocks on OS X El Cap (10.11.3), retina screen
@@ -160,8 +174,8 @@ kbd {
  * By adding an invisible outline property, it will force a repaint
  * which enables the scrolling.
  */
-
+/* 
 .hljs:hover,
 .hljs:active {
   outline: 1px solid transparent;
-}
+} */

@@ -28,7 +28,7 @@ function loadData(tableEle,dataType,data){
   for (var i = 0; i < data.length; i++) {
     //循环插入元素
     tr = tableEle.insertRow(tableEle.rows.length);
-    tr.style.height = "30px";
+    tr.style.height = "40px";
     if (i % 2 === 0) {
       tr.style.backgroundColor = "white";
     } else {
@@ -57,7 +57,6 @@ function addAction(tableEle,tr,dataType){
     td = tr.insertCell(tr.cells.length);
     var addImg = document.createElement("img");
     addImg.src="../static/img/plus.png";
-    td.appendChild(addImg)
     addImg.width="16";
     addImg.style.margin="4px";
     addImg.addEventListener("click",e=>{
@@ -68,7 +67,6 @@ function addAction(tableEle,tr,dataType){
     })
     var delImg = document.createElement("img");
     delImg.src="../static/img/minus.png";
-    td.appendChild(delImg)
     delImg.width="16";
     delImg.style.margin="4px";
     delImg.addEventListener("click",e=>{
@@ -76,7 +74,6 @@ function addAction(tableEle,tr,dataType){
     })
     var saveImg = document.createElement("img");
     saveImg.src="../static/img/save.png";
-    td.appendChild(saveImg)
     saveImg.width="16";
     saveImg.style.margin="4px";
     saveImg.addEventListener("click",e=>{
@@ -86,4 +83,10 @@ function addAction(tableEle,tr,dataType){
       postData(dataType,'json',formData);
     })
     td.align = "center";
+    addImg.classList.add('action-button')
+    delImg.classList.add('action-button')
+    saveImg.classList.add('action-button')
+    td.appendChild(addImg)
+    td.appendChild(delImg)
+    td.appendChild(saveImg)
 }

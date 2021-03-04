@@ -13,8 +13,8 @@ const settings = require('electron-settings')
 const glob = require('glob')
 // const uri='www.irt.net.cn:8088'
 
-const debug = /--debug/.test(process.argv[2])
-let isDevelopment = false
+const debug = true//--debug/.test(process.argv[2])
+let isDevelopment = true
 
 if(isDevelopment){
   require('electron-reload')(__dirname
@@ -188,7 +188,7 @@ initialize()
 
 //get login information
 ipcMain.on('login-message', (event, arg) => {
-  console.log(arg)
+  // console.log(arg)
   signin(arg).then(authInfo=>{
     if(JSON.parse(authInfo).success){
       mainWindow.loadURL(path.join(__dirname, '/views/index.html'))

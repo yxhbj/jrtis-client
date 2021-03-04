@@ -1,25 +1,21 @@
 .form-group{
   display: flex;
+  flex-wrap: wrap;
   margin: 1%;
-  width: 107%;
+  width: 100%;
 } 
-.institution-form-lable{
-  width: 50%;
-}
-.institution-form-input{
-  width: 80%;
-}
-.backup-form-lable{
-  width: 50%;
-}
-.backup-form-input{
-  width: 80%;
-}
+.institution-form-lable,
+.backup-form-lable,
 .database-form-lable{
   width: 50%;
+  height: 24px;
 }
+.institution-form-input,
+.backup-form-input,
 .database-form-input{
-  width: 80%;
+  width: 50%;
+  height: 24px;
+  border-radius: 3px;
 }
 
 #institution-form-input:before{
@@ -32,4 +28,19 @@
   position: relative;
   top: 5px;
   left: -20px;
+}
+.action-button:hover {
+    -webkit-transform: translate(0, -2px);
+    -ms-transform: translate(0, -2px);
+    transform: translate(0, -2px);
+}
+.action-button:active {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+.action-button{
+  width: 16px;
+  margin: 8px 4px 4px 4px;
+  cursor: pointer;
 }
