@@ -32,9 +32,9 @@ let tray = null
 
 function createWindow (uri) {
   const windowOptions = {
-    width: 1080,
+    width: 1920,
     minWidth: 680,
-    height: 840,
+    height: 1200,
     title: app.name,
     icon:path.join(__dirname, '/public/app-icon/win/favicon.ico'),
   //   transparent: true,
@@ -58,7 +58,10 @@ function createWindow (uri) {
     mainWindow = null
     app.quit()
   })
+  setTray()
+}
 
+function setTray(){
   tray = new Tray(path.join(__dirname, '/public/app-icon/win/favicon.ico'))
   const contextMenu = Menu.buildFromTemplate([
       {
@@ -151,8 +154,8 @@ function requestSingleInstanceLock () {
 function signin(userInfo){
   const request = net.request({
           method: 'POST',
-          protocol: 'https:',
-          hostname: 'www.irt.net.cn',
+          protocol: 'http:',
+          hostname: 'localhost',
           port: 8088,
           path: '/authenticate'
       })

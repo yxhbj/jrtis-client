@@ -11,8 +11,8 @@ ipcMain.on('post-message', (event, arg) => {
 function postData(route,type,data,token){
     const request = net.request({
             method: 'POST',
-            protocol: 'https:',
-            hostname: 'www.irt.net.cn',
+            protocol: 'http:',
+            hostname: 'localhost',
             port: 8088,
             path: '/app/'+route
         })

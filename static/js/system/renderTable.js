@@ -12,7 +12,7 @@ const sampleUser = [{
 const sampleServer = [{
         id: 0,
         host: "dell",
-        ip: "114.112.84.158",
+        ip: "localhost",
         backupDirectory: "/autoDataSets/NFSarchive/",
         storageVolume: "/PrimaryPatientData",
         loginName: "p3rtp",

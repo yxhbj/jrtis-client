@@ -24,7 +24,7 @@
   <script type="text/javascript">
     const {ipcRenderer} = require('electron')
     const Settings = require('electron-settings')
-    const uri = "https://www.irt.net.cn:8088/";
+    const uri = "http://localhost:8088/";
 
     function checkLoginStatus(){
       return Settings.get("login");

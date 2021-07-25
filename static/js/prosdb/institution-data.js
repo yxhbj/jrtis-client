@@ -43,11 +43,11 @@ function postData(route,type,data,func){
 
 const {net} = require('electron').remote;
 
-function ftechData(route,type,data){
+function fetchData(route,type,data){
   const request = net.request({
           method: 'POST',
-          protocol: 'https:',
-          hostname: 'www.irt.net.cn',
+          protocol: 'http:',
+          hostname: 'localhost',
           port: 8088,
           path: '/app/'+route
       })
@@ -94,7 +94,7 @@ function postDataElectron(route,type,data,func){
 
   return new Promise((resolve,reject)=>{
     // ipcRenderer.on('post-reply', (event, arg) => {
-    ftechData(route,typeList[type],sendData).then(data=>{
+    fetchData(route,typeList[type],sendData).then(data=>{
       // console.log(typeof arg)
       // if(arg.success){
         var resData=type=='json'?JSON.parse(data):data
