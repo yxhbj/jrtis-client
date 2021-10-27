@@ -28,12 +28,12 @@
   "dependencies": {
     "acorn": "^7.1.1",
     "devtron": "^1.4.0",
+    "electron": "^8.3.0",
     "electron-settings": "^3.2.0",
     "electron-squirrel-startup": "^1.0.0",
     "glob": "^7.1.6"
   },
   "devDependencies": {
-    "electron": "^8.1.1",
     "electron-packager": "^14.2.1",
     "electron-rebuild": "^1.10.1",
     "electron-reload": "^1.5.0",

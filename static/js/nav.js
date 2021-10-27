@@ -109,7 +109,7 @@ function hideAdmin () {
   document.querySelectorAll('.admin').forEach(adm=>adm.classList.remove('is-shown'))
 }
 
-function checkAdmin () {
+const checkAdmin = function () {
   if(userInfo.role==="Administrator"){
     showAdmin()
   }else{
@@ -161,4 +161,15 @@ if (sectionId) {
 // }
 
 
+var { shell } = require('electron') 
+var aDom=document.querySelectorAll('a');
+
+aDom.forEach(ad=>{ad.onclick=function(e){
+    // 阻止a标签的默认行为
+    e.preventDefault();  
+    var href=this.getAttribute('href');
+    //shell模块打开外部浏览器
+    shell.openExternal(href)
+  }
+})
 showMainContent()

@@ -19,6 +19,7 @@ body {
   padding: 15px;
   margin: auto;  
   background-color: rgb(250, 249, 249);
+  border-radius: 6px;
 }
 .form-signin .checkbox {
   font-weight: 400;

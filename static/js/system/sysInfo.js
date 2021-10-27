@@ -32,10 +32,7 @@ function getServLogs(server){
     }).catch(e=>console.log(e))
 }
 
-postData("sysInfo",'json').then(sysInfo=>{
-    var applogs=sysInfo[0],
-        delLogs=sysInfo[1],
-        sysStat=sysInfo[2];
+postData("applogs",'json').then(applogs=>{
     var ss = document.querySelector('[name="selectLogServer"]');
     var su = document.querySelector('[name="selectLogUser"]');
     var servers={},users={}
@@ -63,8 +60,7 @@ postData("sysInfo",'json').then(sysInfo=>{
     }
     var serverFilter=document.querySelector('[name="selectLogServer"]'),
         userFilter=document.querySelector('[name="selectLogUser"]'),
-        searchFilter=document.querySelector('[name="search-log"]'),
-        searchDelFilter=document.querySelector('[name="search-del"]');
+        searchFilter=document.querySelector('[name="search-log"]');
     
     serverFilter.addEventListener("change", function() {
         filterAppLogs(applogs,this.value,userFilter.value,searchFilter.value)
@@ -75,12 +71,21 @@ postData("sysInfo",'json').then(sysInfo=>{
     searchFilter.addEventListener("change", function() {
         filterAppLogs(applogs,serverFilter.value,userFilter.value,this.value)
     });
+    renderAppLogs(applogs)
+})
+
+postData("delLogs",'json').then(delLogs=>{
+    var searchDelFilter=document.querySelector('[name="search-del"]')
     searchDelFilter.addEventListener("change", function() {
         filterDelLogs(delLogs,this.value)
     });
-    renderAppLogs(applogs)
     renderDelLogs(delLogs)
-    setStat(sysStat);
+})
+
+//set system status
+postData("sysStat",'json').then(sysStat=>{
+    console.log("System status:",sysStat)
+    setStat (sysStat)
 })
 
 function setStat (sysStat) {
